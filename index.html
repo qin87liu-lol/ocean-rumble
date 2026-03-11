@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ocean Rumble</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #050e1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    #game-container canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div id="game-container"></div>
+
+  <!-- Phaser 3 -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser.min.js"></script>
+
+  <!-- Game data -->
+  <script src="js/SoundManager.js"></script>
+  <script src="js/GameState.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/utils.js"></script>
+
+  <!-- Scenes (load before game.js) -->
+  <script src="js/scenes/BootScene.js"></script>
+  <script src="js/scenes/TitleScene.js"></script>
+  <script src="js/scenes/AnimalSelectScene.js"></script>
+  <script src="js/scenes/MathQuizScene.js"></script>
+  <script src="js/scenes/PowerUpScene.js"></script>
+  <script src="js/scenes/BattleScene.js"></script>
+  <script src="js/scenes/BattleResultScene.js"></script>
+  <script src="js/scenes/VictoryScene.js"></script>
+  <script src="js/scenes/GameOverScene.js"></script>
+
+  <!-- Main config -->
+  <script src="js/game.js"></script>
+
+  <script>
+    // Show any JS errors visibly on screen for easier debugging
+    window.onerror = function(msg, src, line) {
+      const div = document.createElement('div');
+      div.style.cssText = 'position:fixed;bottom:0;left:0;right:0;background:#c0392b;color:#fff;padding:10px;font:14px monospace;z-index:9999';
+      div.textContent = '⚠ Error: ' + msg + ' (line ' + line + ')';
+      document.body.appendChild(div);
+    };
+  </script>
+</body>
+</html>
