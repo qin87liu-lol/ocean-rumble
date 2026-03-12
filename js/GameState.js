@@ -6,6 +6,7 @@ const GameState = {
   quizScore: 0,
   totalScore: 0,
   roundScores: [],
+  usedEnemyFrames: [],
   powerTier: 'Normal',
   playerStats: { hp: 3, fireRate: 'Normal', projectileSize: 'Small' },
 
@@ -17,6 +18,7 @@ const GameState = {
     this.quizScore          = 0;
     this.totalScore         = 0;
     this.roundScores        = [];
+    this.usedEnemyFrames    = [];
     this.powerTier          = 'Normal';
   },
 

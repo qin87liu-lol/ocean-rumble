@@ -1,9 +1,42 @@
-const ENEMY_CONFIGS = [
-  { frame: 14, name: 'Narwhal',    hp: 3, oscSpeed: 1.2, fireRate: 1200, type: 'normal' },
-  { frame: 10, name: 'Pufferfish', hp: 4, oscSpeed: 1.6, fireRate: 900,  type: 'normal' },
-  { frame: 8,  name: 'Hammerhead', hp: 5, oscSpeed: 2.0, fireRate: 650,  type: 'normal' },
-  { frame: 19, name: 'Giant Crab', hp: 6, oscSpeed: 1.4, fireRate: 450,  type: 'boss'   },
+// Enemy pool by difficulty tier — randomised each game.
+const ENEMY_POOL = [
+  // Tier 1 — Round 1 (easy)
+  { frame: 14, name: 'Narwhal',     tier: 1 },
+  { frame: 12, name: 'Clownfish',   tier: 1 },
+  { frame: 13, name: 'Seahorse',    tier: 1 },
+  { frame: 16, name: 'Salmon',      tier: 1 },
+  { frame: 18, name: 'Goldfish',    tier: 1 },
+  // Tier 2 — Round 2 (medium)
+  { frame: 10, name: 'Pufferfish',  tier: 2 },
+  { frame: 15, name: 'Eel',         tier: 2 },
+  { frame: 17, name: 'Piranha',     tier: 2 },
+  { frame: 1,  name: 'Lanternfish', tier: 2 },
+  { frame: 7,  name: 'Seal',        tier: 2 },
+  // Tier 3 — Round 3 (hard)
+  { frame: 8,  name: 'Hammerhead',  tier: 3 },
+  { frame: 0,  name: 'Shark',       tier: 3 },
+  { frame: 11, name: 'Sailfish',    tier: 3 },
+  { frame: 9,  name: 'Squid',       tier: 3 },
+  // Tier 4 — Round 4 (boss)
+  { frame: 19, name: 'Giant Crab',  tier: 4 },
+  { frame: 3,  name: 'Whale',       tier: 4 },
+  { frame: 4,  name: 'Orca',        tier: 4 },
+  { frame: 5,  name: 'Humpback',    tier: 4 },
 ];
+
+const TIER_STATS = {
+  1: { hp: 3, oscSpeed: 1.2, fireRate: 1200, type: 'normal' },
+  2: { hp: 4, oscSpeed: 1.6, fireRate: 900,  type: 'normal' },
+  3: { hp: 5, oscSpeed: 2.0, fireRate: 650,  type: 'normal' },
+  4: { hp: 6, oscSpeed: 1.4, fireRate: 450,  type: 'boss'   },
+};
+
+function pickEnemy(tier, usedFrames) {
+  const available = ENEMY_POOL.filter(e => e.tier === tier && !usedFrames.includes(e.frame));
+  const source    = available.length > 0 ? available : ENEMY_POOL.filter(e => e.tier === tier);
+  const base      = source[Math.floor(Math.random() * source.length)];
+  return { ...base, ...TIER_STATS[tier] };
+}
 
 const FIRE_RATE_MS = { 'Slow': 1000, 'Normal': 700, 'Medium': 500, 'Fast': 300 };
 const PROJ_RADIUS  = { 'Tiny': 4,    'Small': 6,   'Medium': 10,  'Large': 14  };
@@ -14,7 +47,8 @@ class BattleScene extends Phaser.Scene {
   create() {
     const round = GameState.round;
     const stats = GameState.playerStats;
-    this.cfg    = ENEMY_CONFIGS[round - 1];
+    this.cfg    = pickEnemy(round, GameState.usedEnemyFrames);
+    GameState.usedEnemyFrames.push(this.cfg.frame);
 
     this.playerHp     = stats.hp;
     this.playerMaxHp  = stats.hp;

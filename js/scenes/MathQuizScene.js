@@ -58,11 +58,11 @@ class MathQuizScene extends Phaser.Scene {
       align: 'center', wordWrap: { width: 480 }
     }).setOrigin(0.5);
 
-    // Visual / emoji area
+    // Visual / emoji area — large so 5-year-olds can easily count
     this.visualText = this.add.text(400, 235, '', {
-      fontSize: '30px', fill: '#ffffff',
+      fontSize: '48px', fill: '#ffffff',
       fontFamily: 'Arial', align: 'center',
-      wordWrap: { width: 560 }
+      wordWrap: { width: 620 }
     }).setOrigin(0.5);
 
     // Answer buttons
